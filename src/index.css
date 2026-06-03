@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* ── Global font ────────────────────────────────────────── */
+*, *::before, *::after {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Headings use the serif display font ────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ── Utility class used in SignIn / SignUp cursive headings  */
+.font-vibes {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+}
+
+/* ── Base text rendering ─────────────────────────────────── */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background-color: var(--bg-base);
+  color: var(--text-base);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ── Theme variables — Light (default) ───────────────────── */
+:root, [data-theme="light"] {
+  --bg-base:        #e8d9c4;
+  --bg-card:        #f0e3d2;
+  --bg-card-2:      #e9dccb;
+  --bg-white:       #ffffff;
+  --bg-navbar:      #f0e3d2;
+  --bg-footer:      #4a3a22;
+
+  --text-base:      #2f241c;
+  --text-muted:     #605146;
+  --text-accent:    #624d2d;
+  --text-white:     #ffffff;
+
+  --border-main:    rgba(96,81,70,0.2);
+  --border-strong:  rgba(96,81,70,0.5);
+}
+
+/* ── Theme variables — Dark ──────────────────────────────── */
+[data-theme="dark"] {
+  --bg-base:        #1a1410;
+  --bg-card:        #241c15;
+  --bg-card-2:      #2a2018;
+  --bg-white:       #2e2318;
+  --bg-navbar:      #241c15;
+  --bg-footer:      #0e0b08;
+
+  --text-base:      #f0e3d2;
+  --text-muted:     #c8a882;
+  --text-accent:    #d4a96a;
+  --text-white:     #f0e3d2;
+
+  --border-main:    rgba(200,168,130,0.2);
+  --border-strong:  rgba(200,168,130,0.4);
+}
+
+/* ── Apply theme vars to key elements ────────────────────── */
+html[data-theme="dark"] body {
+  background-color: #1a1410 !important;
+  color: #f0e3d2 !important;
+}
+
+html[data-theme="dark"] * {
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+/* Page background */
+html[data-theme="dark"] #root,
+html[data-theme="dark"] .min-h-screen { background-color: #1a1410 !important; }
+
+/* Navbar */
+html[data-theme="dark"] nav { background-color: #241c15 !important; }
+html[data-theme="dark"] nav h5 { color: #f0e3d2 !important; }
+
+/* Footer */
+html[data-theme="dark"] footer { background-color: #0e0b08 !important; }
+
+/* All white / cream backgrounds → dark */
+html[data-theme="dark"] div,
+html[data-theme="dark"] section,
+html[data-theme="dark"] aside,
+html[data-theme="dark"] main { color: #f0e3d2; }
+
+/* Specific bg overrides */
+html[data-theme="dark"] [style*="background"],
+html[data-theme="dark"] .bg-white { background-color: #2e2318 !important; }
+
+/* Force all card/panel backgrounds — but NOT buttons */
+html[data-theme="dark"] div.rounded-xl,
+html[data-theme="dark"] div.rounded-2xl,
+html[data-theme="dark"] div.rounded-3xl,
+html[data-theme="dark"] ul.rounded-xl,
+html[data-theme="dark"] nav.rounded-xl,
+html[data-theme="dark"] nav.rounded-lg {
+  background-color: #241c15 !important;
+  border-color: rgba(200,168,130,0.2) !important;
+  color: #f0e3d2 !important;
+}
+
+/* Keep colored buttons/badges as-is (don't override bg-[#...] buttons) */
+html[data-theme="dark"] button {
+  color: inherit;
+}
+
+/* Inputs */
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #3a2c20 !important;
+  color: #f0e3d2 !important;
+  border-color: rgba(200,168,130,0.3) !important;
+}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: rgba(200,168,130,0.4) !important;
+}
+
+/* Text colors */
+html[data-theme="dark"] p,
+html[data-theme="dark"] span,
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] label,
+html[data-theme="dark"] li { color: #f0e3d2; }
+
+/* Keep white text on dark buttons readable */
+html[data-theme="dark"] button.text-white,
+html[data-theme="dark"] [class*="text-white"] { color: #ffffff !important; }
+
+/* Keep yellow/accent text */
+html[data-theme="dark"] [class*="text-amber"],
+html[data-theme="dark"] [class*="text-yellow"],
+html[data-theme="dark"] [class*="text-emerald"],
+html[data-theme="dark"] [class*="text-red"],
+html[data-theme="dark"] [class*="text-blue"] { color: inherit; }

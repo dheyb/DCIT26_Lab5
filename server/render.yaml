@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: takipsilim-cafe-api
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_SSL
+        value: "true"
+      - key: PORT
+        value: "3001"
+      - key: JWT_SECRET
+        sync: false

@@ -3,14 +3,14 @@ const pool = require("../db");
 
 const router = express.Router();
 
-// Public endpoint — returns top customers ranked by delivered order count
+// Public endpoint — returns top customers ranked by total order count
 router.get("/", async (req, res) => {
   try {
     const [rows] = await pool.query(
       `SELECT u.username, u.name, COUNT(o.id) AS orders
        FROM orders o
        JOIN users u ON o.user_id = u.id
-       WHERE o.status = 'DELIVERED'
+       WHERE o.status != 'CANCELLED'
        GROUP BY o.user_id, u.username, u.name
        ORDER BY orders DESC
        LIMIT 20`

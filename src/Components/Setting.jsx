@@ -283,7 +283,7 @@ export const Setting = () => {
                     <p className="text-xs opacity-60 mt-0.5">Removes your saved profile and preferences from this device</p>
                   </div>
                   <button type="button" onClick={() => setShowClearConfirm(true)}
-                    className="px-4 py-2 rounded-xl bg-red-50 border border-red-300 text-red-600 text-xs font-bold hover:bg-red-100 transition shrink-0">
+                    className="px-4 py-2 rounded-xl bg-red-500 border border-red-600 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
                     Clear Data
                   </button>
                 </div>

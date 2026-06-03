@@ -15,8 +15,13 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
+    // Only clear token on 401 for non-auth endpoints (not password change etc.)
     if (err.response?.status === 401) {
-      localStorage.removeItem("auth_token");
+      const url = err.config?.url || "";
+      const isAuthAction = url.includes("/auth/password") || url.includes("/auth/signin");
+      if (!isAuthAction) {
+        localStorage.removeItem("auth_token");
+      }
     }
     return Promise.reject(err);
   }

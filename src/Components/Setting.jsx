@@ -124,13 +124,19 @@ export const Setting = () => {
     showToast("Your preferences have been saved.", "success");
   };
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     if (!pwForm.current) { showToast("Please enter your current password.", "warning"); return; }
     if (pwForm.next.length < 6) { showToast("New password must be at least 6 characters.", "warning"); return; }
     if (pwForm.next !== pwForm.confirm) { showToast("New passwords do not match.", "error"); return; }
-    setPwForm({ current: "", next: "", confirm: "" });
-    setShowPwModal(false);
-    showToast("Password updated successfully.", "success");
+    try {
+      await api.put("/auth/password", { currentPassword: pwForm.current, newPassword: pwForm.next });
+      setPwForm({ current: "", next: "", confirm: "" });
+      setShowPwModal(false);
+      showToast("Password updated successfully.", "success");
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to update password. Please try again.";
+      showToast(msg, "error");
+    }
   };
 
   const handleClearData = () => {

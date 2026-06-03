@@ -73,6 +73,27 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+router.put("/password", authMiddleware, async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: "Current and new password are required" });
+  }
+  if (newPassword.length < 6) {
+    return res.status(400).json({ message: "New password must be at least 6 characters" });
+  }
+  try {
+    const [rows] = await pool.query("SELECT password FROM users WHERE id = ?", [req.user.id]);
+    if (rows.length === 0) return res.status(404).json({ message: "User not found" });
+    const valid = await bcrypt.compare(currentPassword, rows[0].password);
+    if (!valid) return res.status(401).json({ message: "Current password is incorrect" });
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await pool.query("UPDATE users SET password = ? WHERE id = ?", [hashed, req.user.id]);
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
 router.delete("/delete", authMiddleware, async (req, res) => {
   try {
     await pool.query("DELETE FROM users WHERE id = ?", [req.user.id]);

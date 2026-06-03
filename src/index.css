@@ -111,9 +111,39 @@ html[data-theme="dark"] nav.rounded-lg {
   color: #f0e3d2 !important;
 }
 
+/* Catch all hardcoded cream/beige backgrounds used in components */
+html[data-theme="dark"] [class*="bg-\\[\\#f0e3d2\\]"],
+html[data-theme="dark"] [class*="bg-\\[\\#efe4d4\\]"],
+html[data-theme="dark"] [class*="bg-\\[\\#e9dc"],
+html[data-theme="dark"] [class*="bg-\\[\\#e9dcc"],
+html[data-theme="dark"] [class*="bg-\\[\\#efefef\\]"],
+html[data-theme="dark"] [class*="bg-\\[\\#f5f5f5\\]"],
+html[data-theme="dark"] [class*="bg-\\[\\#f5f0e8\\]"],
+html[data-theme="dark"] [class*="bg-\\[\\#f9f5f0\\]"] {
+  background-color: #2a2018 !important;
+}
+
+html[data-theme="dark"] [class*="bg-white\\/"] {
+  background-color: rgba(46,35,24,0.7) !important;
+}
+
 /* Keep colored buttons/badges as-is (don't override bg-[#...] buttons) */
 html[data-theme="dark"] button {
   color: inherit;
+}
+
+/* Prevent status/color buttons from being overridden */
+html[data-theme="dark"] button.bg-red-500,
+html[data-theme="dark"] button.bg-red-600,
+html[data-theme="dark"] button[class*="bg-red"],
+html[data-theme="dark"] button[class*="bg-emerald"],
+html[data-theme="dark"] button[class*="bg-amber"],
+html[data-theme="dark"] button[class*="bg-blue"],
+html[data-theme="dark"] button[class*="bg-orange"],
+html[data-theme="dark"] button[class*="bg-\\[\\#"],
+html[data-theme="dark"] button[class*="bg-black"],
+html[data-theme="dark"] button[class*="bg-stone"] {
+  background-color: revert !important;
 }
 
 /* Inputs */

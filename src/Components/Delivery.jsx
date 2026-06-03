@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "../Context/useCart";
 import { useToastContext } from "../Context/ToastContext";
+import { usePrefs } from "../Context/PrefsContext";
 
 const progressLabels = [
   "Order Confirmed",
@@ -65,6 +66,8 @@ function useOrderTimer(orders, updateOrder) {
 export const Delivery = () => {
   const { orders = [], updateOrder, cancelOrder } = useCart();
   const { showToast } = useToastContext();
+  const { prefs } = usePrefs();
+  const dm = prefs.darkMode;
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showTrackModal, setShowTrackModal] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
@@ -140,15 +143,13 @@ export const Delivery = () => {
   };
 
   return (
-    <div className="p-5 bg-[#f0e3d2] rounded-xl border border-[#605146]/10 shadow-md text-[#605146]">
-      <h3 className="text-4xl font-bold text-center text-[#605146] mb-6">Your Deliveries</h3>
+    <div className={`p-5 rounded-xl border shadow-md ${dm ? "bg-[#241c15] border-[#c8a882]/20 text-[#f0e3d2]" : "bg-[#f0e3d2] border-[#605146]/10 text-[#605146]"}`}>
+      <h3 className={`text-4xl font-bold text-center mb-6 ${dm ? "text-[#d4a96a]" : "text-[#605146]"}`}>Your Deliveries</h3>
 
       {activeOrders.length === 0 ? (
-        <div className="bg-white/70 border border-[#605146]/30 rounded-2xl p-6 text-center">
+        <div className={`border rounded-2xl p-6 text-center ${dm ? "bg-[#2e2318] border-[#c8a882]/20" : "bg-white/70 border-[#605146]/30"}`}>
           <p className="font-semibold">No active deliveries yet.</p>
-          <p className="text-sm opacity-70 mt-1">
-            Place an order from Menu then Check &amp; Pay.
-          </p>
+          <p className="text-sm opacity-70 mt-1">Place an order from Menu then Check &amp; Pay.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -157,10 +158,7 @@ export const Delivery = () => {
             const pct = ((step + 1) / progressLabels.length) * 100;
 
             return (
-              <div
-                key={order.id}
-                className="bg-white/70 border border-[#605146]/30 rounded-2xl p-4 shadow-sm"
-              >
+              <div key={order.id} className={`border rounded-2xl p-4 shadow-sm ${dm ? "bg-[#2e2318] border-[#c8a882]/20" : "bg-white/70 border-[#605146]/30"}`}>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                   <div>
                     <p className="font-bold text-lg">{order.id}</p>
@@ -237,7 +235,7 @@ export const Delivery = () => {
       {/* Track Modal */}
       {showTrackModal && liveSelected && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-3">
-          <div className="w-full max-w-xl bg-white rounded-md border border-[#605146]/40 p-4">
+          <div className={`w-full max-w-xl rounded-md border p-4 ${dm ? "bg-[#241c15] border-[#c8a882]/20 text-[#f0e3d2]" : "bg-white border-[#605146]/40 text-[#2f241c]"}`}>
             <h4 className="text-2xl font-semibold mb-1">Track Your Order</h4>
             <p className="text-xs opacity-60 mb-1">{liveSelected.id}</p>
             {liveSelected.deliveryAddress && (
@@ -303,11 +301,8 @@ export const Delivery = () => {
               Chat with Rider
             </button>
 
-            <button
-              type="button"
-              onClick={closeModals}
-              className="w-full mt-2 py-2 rounded-md border border-[#605146]/40"
-            >
+            <button type="button" onClick={closeModals}
+              className={`w-full mt-2 py-2 rounded-md border ${dm ? "border-[#c8a882]/30 text-[#f0e3d2] hover:bg-[#3a2c20]" : "border-[#605146]/40 hover:bg-gray-50"}`}>
               Close
             </button>
           </div>
@@ -317,16 +312,16 @@ export const Delivery = () => {
       {/* Chat Modal */}
       {showChatModal && liveSelected && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-3">
-          <div className="w-full max-w-xl bg-white rounded-xl border border-[#605146]/40 p-4 flex flex-col max-h-[85vh]">
+          <div className={`w-full max-w-xl rounded-xl border p-4 flex flex-col max-h-[85vh] ${dm ? "bg-[#241c15] border-[#c8a882]/20 text-[#f0e3d2]" : "bg-white border-[#605146]/40 text-[#2f241c]"}`}>
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-4xl font-bold text-[#605146]">Chat with Rider</h4>
               <p className="text-xs opacity-60 truncate max-w-[140px]">{liveSelected.id}</p>
             </div>
 
-            <div className="flex-1 min-h-[200px] max-h-[280px] overflow-y-auto border border-[#605146]/20 rounded-lg bg-[#f5f5f5] p-3 mb-3 space-y-2">
+            <div className={`flex-1 min-h-[200px] max-h-[280px] overflow-y-auto border rounded-lg p-3 mb-3 space-y-2 ${dm ? "bg-[#1e1710] border-[#c8a882]/20" : "bg-[#f5f5f5] border-[#605146]/20"}`}>
               {chatMessages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${msg.from === "user" ? "bg-[#2f241c] text-white" : "bg-white border border-[#605146]/25 text-[#605146]"}`}>
+                  <div className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${msg.from === "user" ? "bg-[#2f241c] text-white" : dm ? "bg-[#3a2c20] border border-[#c8a882]/20 text-[#f0e3d2]" : "bg-white border border-[#605146]/25 text-[#605146]"}`}>
                     {msg.text}
                   </div>
                 </div>
@@ -334,27 +329,15 @@ export const Delivery = () => {
             </div>
 
             <div className="flex gap-2">
-              <input
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={handleKeyDown}
+              <input value={message} onChange={(e) => setMessage(e.target.value)} onKeyDown={handleKeyDown}
                 placeholder="Message your rider"
-                className="flex-1 border border-[#605146]/30 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#605146]/15"
+                className={`flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 ${dm ? "bg-[#3a2c20] border-[#c8a882]/25 text-[#f0e3d2] placeholder-[#c8a882]/40 focus:ring-[#c8a882]/15" : "border-[#605146]/30 focus:ring-[#605146]/15"}`}
               />
-              <button
-                type="button"
-                onClick={handleSend}
-                className="px-5 py-2 rounded-lg bg-black text-white text-sm font-semibold hover:opacity-90"
-              >
-                Send
-              </button>
+              <button type="button" onClick={handleSend} className="px-5 py-2 rounded-lg bg-black text-white text-sm font-semibold hover:opacity-90">Send</button>
             </div>
 
-            <button
-              type="button"
-              onClick={closeModals}
-              className="w-full mt-3 py-2 rounded-lg border border-[#605146]/40 text-sm font-semibold hover:bg-[#f0e3d2]/50"
-            >
+            <button type="button" onClick={closeModals}
+              className={`w-full mt-3 py-2 rounded-lg border text-sm font-semibold ${dm ? "border-[#c8a882]/30 text-[#f0e3d2] hover:bg-[#3a2c20]" : "border-[#605146]/40 hover:bg-[#f0e3d2]/50"}`}>
               Close
             </button>
           </div>

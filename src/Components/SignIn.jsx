@@ -27,25 +27,18 @@ export const SignIn = () => {
 
     const submitSignIn = async (e) => {
         e.preventDefault();
-
         setErrorMessage('');
         setSuccessMessage('');
-
-        const success = await handleSignIn(
-            signInData.username,
-            signInData.password
-        );
-
-        if (success) {
+        const result = await handleSignIn(signInData.username, signInData.password);
+        if (result.success) {
             setSuccessMessage('Login successful!');
         } else {
-            setErrorMessage('Invalid username or password.');
+            setErrorMessage(result.message || 'Invalid username or password.');
         }
     };
 
     const submitSignUp = async (e) => {
         e.preventDefault();
-
         setErrorMessage('');
         setSuccessMessage('');
 
@@ -53,29 +46,18 @@ export const SignIn = () => {
             setErrorMessage("Passwords do not match!");
             return;
         }
-
-
         if (!signUpData.confirmPassword) {
             setErrorMessage("Please confirm your password.");
             return;
         }
 
-        const success = await handleSignUp(signUpData);
-
-        if (success) {
+        const result = await handleSignUp(signUpData);
+        if (result.success) {
             setSuccessMessage('Registration successful!');
             setFormView("signin");
-
-            setSignUpData({
-                name: '',
-                email: '',
-                username: '',
-                password: '',
-                phone: ''
-            });
-
+            setSignUpData({ name: '', email: '', username: '', password: '', phone: '' });
         } else {
-            setErrorMessage('Email is already registered.');
+            setErrorMessage(result.message || 'Registration failed. Please try again.');
         }
     };
 

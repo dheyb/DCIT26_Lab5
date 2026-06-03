@@ -26,6 +26,7 @@ router.post("/signup", async (req, res) => {
     );
     res.status(201).json({ message: "Registration successful", userId: result.insertId });
   } catch (err) {
+    console.error('Signup error:', err.message);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });

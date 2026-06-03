@@ -13,12 +13,13 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   process.env.FRONTEND_URL,
+  // Allow all vercel.app subdomains for preview deployments
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow same-origin requests (no origin header) and allowed origins
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow same-origin (no origin header), allowed origins, and all vercel.app previews
+    if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));

@@ -20,7 +20,22 @@ export const AuthProvider = ({ children }) => {
         setOrderCounts(prev => ({ ...prev, [username]: (prev[username] ?? 0) + 1 }));
     };
 
-    const rankedCustomers = [];
+    const [rankedCustomers, setRankedCustomers] = useState([]);
+
+    const fetchRankings = async () => {
+        try {
+            const res = await api.get('/rankings');
+            setRankedCustomers(res.data.map(r => ({
+                username: r.username,
+                name: r.name,
+                orders: Number(r.orders),
+            })));
+        } catch {}
+    };
+
+    useEffect(() => {
+        if (user) fetchRankings();
+    }, [user]);
 
     const handleSignUp = async (userData) => {
         try {
@@ -66,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, handleSignIn, handleSignUp, handleLogout, orderCounts, addOrderCount, rankedCustomers }}>
+        <AuthContext.Provider value={{ user, loading, handleSignIn, handleSignUp, handleLogout, orderCounts, addOrderCount, rankedCustomers, fetchRankings }}>
             {children}
         </AuthContext.Provider>
     );

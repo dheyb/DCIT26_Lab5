@@ -10,36 +10,34 @@ const PREFS_KEY   = "takipsilim_preferences";
 const defaultProfile = { fullName: "", email: "", phone: "", address: "", bio: "", photo: null };
 const defaultPrefs   = { orderNotif: true, promoNotif: false, darkMode: false, compactView: false };
 
-const Section = ({ title, icon, children, dm }) => (
-  <div className={`border rounded-2xl overflow-hidden ${dm ? "bg-[#241c15] border-[#c8a882]/20" : "bg-white/90 border-[#605146]/20"}`}>
-    <div className={`flex items-center gap-2 px-5 py-3 border-b ${dm ? "bg-[#2e2318] border-[#c8a882]/15" : "bg-[#605146]/8 border-[#605146]/15"}`}>
+const Section = ({ title, icon, children }) => (
+  <div className="bg-white/90 border border-[#605146]/20 rounded-2xl overflow-hidden">
+    <div className="flex items-center gap-2 px-5 py-3 bg-[#605146]/8 border-b border-[#605146]/15">
       <span className="text-base">{icon}</span>
-      <h3 className={`text-sm font-black uppercase tracking-wider ${dm ? "text-[#f0e3d2]" : "text-[#2f241c]"}`}>{title}</h3>
+      <h3 className="text-sm font-black text-[#2f241c] uppercase tracking-wider">{title}</h3>
     </div>
     <div className="p-5">{children}</div>
   </div>
 );
 
-const Field = ({ label, children, dm }) => (
+const Field = ({ label, children }) => (
   <div className="flex flex-col gap-1.5">
-    <label className={`text-xs font-bold uppercase tracking-wide ${dm ? "text-[#c8a882]" : "text-[#605146]/80"}`}>{label}</label>
+    <label className="text-xs font-bold text-[#605146]/80 uppercase tracking-wide">{label}</label>
     {children}
   </div>
 );
 
-const inputCls = "w-full rounded-xl border px-4 py-2.5 text-sm outline-none focus:ring-2 transition";
-const inputLight = "border-[#605146]/25 bg-white text-[#2f241c] focus:border-[#605146] focus:ring-[#605146]/15";
-const inputDark  = "border-[#c8a882]/25 bg-[#3a2c20] text-[#f0e3d2] focus:border-[#c8a882] focus:ring-[#c8a882]/15";
+const inputCls = "w-full rounded-xl border border-[#605146]/25 bg-white px-4 py-2.5 text-sm outline-none focus:border-[#605146] focus:ring-2 focus:ring-[#605146]/15 transition";
 
-const Toggle = ({ checked, onChange, label, sub, dm }) => (
+const Toggle = ({ checked, onChange, label, sub }) => (
   <label className="flex items-center justify-between cursor-pointer group">
     <div>
-      <p className={`text-sm font-semibold ${dm ? "text-[#f0e3d2]" : "text-[#2f241c]"}`}>{label}</p>
-      {sub && <p className={`text-xs mt-0.5 ${dm ? "text-[#c8a882]" : "opacity-60"}`}>{sub}</p>}
+      <p className="text-sm font-semibold text-[#2f241c]">{label}</p>
+      {sub && <p className="text-xs opacity-60 mt-0.5">{sub}</p>}
     </div>
     <div
       onClick={onChange}
-      className={`relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 ${checked ? "bg-[#624d2d]" : "bg-gray-400"}`}
+      className={`relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 ${checked ? "bg-[#624d2d]" : "bg-gray-300"}`}
     >
       <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${checked ? "translate-x-5" : ""}`} />
     </div>
@@ -49,8 +47,7 @@ const Toggle = ({ checked, onChange, label, sub, dm }) => (
 export const Setting = () => {
   const { showToast } = useToastContext();
   const { handleLogout, user } = useAuth();
-  const { reloadPrefs, prefs: globalPrefs } = usePrefs();
-  const dm = globalPrefs.darkMode;
+  const { reloadPrefs } = usePrefs();
 
   const [profile, setProfile]     = useState(defaultProfile);
   const [prefs, setPrefs]         = useState(defaultPrefs);
@@ -178,15 +175,15 @@ export const Setting = () => {
   ];
 
   return (
-    <div className={`p-4 md:p-6 ${dm ? "text-[#f0e3d2]" : "text-[#2f241c]"}`}>
+    <div className="p-4 md:p-6 text-[#2f241c]">
       <div className="max-w-3xl mx-auto space-y-5">
 
         <div>
-          <h2 className={`text-4xl font-bold ${dm ? "text-[#d4a96a]" : "text-[#605146]"}`}>Settings</h2>
-          <p className={`text-xs mt-1 ${dm ? "text-[#c8a882]" : "text-[#605146]/70"}`}>Manage your profile, account and preferences</p>
+          <h2 className="text-4xl font-bold text-[#605146]">Settings</h2>
+          <p className="text-xs text-[#605146]/70 mt-1">Manage your profile, account and preferences</p>
         </div>
 
-        <div className={`flex gap-2 p-1.5 rounded-xl border ${dm ? "bg-[#2e2318] border-[#c8a882]/20" : "bg-[#e9dcc9] border-[#605146]/15"}`}>
+        <div className="flex gap-2 bg-[#e9dcc9] p-1.5 rounded-xl border border-[#605146]/15">
           {tabs.map(t => (
             <button
               key={t.id}
@@ -195,7 +192,7 @@ export const Setting = () => {
               className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
                 activeTab === t.id
                   ? "bg-[#624d2d] text-white shadow"
-                  : dm ? "text-[#c8a882] hover:bg-[#3a2c20]" : "text-[#605146] hover:bg-[#605146]/10"
+                  : "text-[#605146] hover:bg-[#605146]/10"
               }`}
             >
               {t.icon} {t.label}
@@ -205,18 +202,21 @@ export const Setting = () => {
 
         {activeTab === "profile" && (
           <div className="space-y-4">
-            <Section title="Profile Photo" icon="📷" dm={dm}>
+            <Section title="Profile Photo" icon="📷">
               <div className="flex items-center gap-5">
-                <div className={`w-20 h-20 rounded-2xl border-2 overflow-hidden shrink-0 shadow-sm ${dm ? "border-[#c8a882]/30 bg-[#3a2c20]" : "border-[#605146]/30 bg-[#f0e3d2]"}`}>
+                <div className="w-20 h-20 rounded-2xl border-2 border-[#605146]/30 bg-[#f0e3d2] overflow-hidden shrink-0 shadow-sm">
                   {profile.photo
                     ? <img src={profile.photo} alt="Profile" className="w-full h-full object-cover" />
                     : <div className="w-full h-full flex items-center justify-center text-3xl opacity-30">👤</div>}
                 </div>
                 <div>
-                  <p className={`text-sm font-semibold ${dm ? "text-[#f0e3d2]" : ""}`}>{profile.fullName || "No name set"}</p>
-                  <p className={`text-xs mt-0.5 ${dm ? "text-[#c8a882]" : "opacity-60"}`}>{profile.email || "No email set"}</p>
-                  <button type="button" onClick={handlePickPhoto}
-                    className="mt-2 text-xs font-bold text-[#d4a96a] underline underline-offset-2 hover:opacity-70">
+                  <p className="text-sm font-semibold">{profile.fullName || "No name set"}</p>
+                  <p className="text-xs opacity-60 mt-0.5">{profile.email || "No email set"}</p>
+                  <button
+                    type="button"
+                    onClick={handlePickPhoto}
+                    className="mt-2 text-xs font-bold text-[#624d2d] underline underline-offset-2 hover:opacity-70"
+                  >
                     Change Photo
                   </button>
                   <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
@@ -224,38 +224,38 @@ export const Setting = () => {
               </div>
             </Section>
 
-            <Section title="Personal Information" icon="📝" dm={dm}>
+            <Section title="Personal Information" icon="📝">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="md:col-span-2">
-                  <Field label="Full Name" dm={dm}>
+                  <Field label="Full Name">
                     <input type="text" value={profile.fullName} onChange={e => handleChange("fullName", e.target.value)}
-                      placeholder="Juan Dela Cruz" className={`${inputCls} ${dm ? inputDark : inputLight}`} />
+                      placeholder="Juan Dela Cruz" className={inputCls} />
                   </Field>
                 </div>
-                <Field label="Email Address" dm={dm}>
+                <Field label="Email Address">
                   <input type="email" value={profile.email} onChange={e => handleChange("email", e.target.value)}
-                    placeholder="juan@email.com" className={`${inputCls} ${dm ? inputDark : inputLight}`} />
+                    placeholder="juan@email.com" className={inputCls} />
                 </Field>
-                <Field label="Phone Number" dm={dm}>
+                <Field label="Phone Number">
                   <input type="tel" inputMode="numeric" value={profile.phone}
                     onChange={e => handleChange("phone", e.target.value.replace(/\D/g, ""))}
-                    placeholder="09XXXXXXXXX" maxLength={11} className={`${inputCls} ${dm ? inputDark : inputLight}`} />
+                    placeholder="09XXXXXXXXX" maxLength={11} className={inputCls} />
                 </Field>
                 <div className="md:col-span-2">
-                  <Field label="Delivery Address" dm={dm}>
+                  <Field label="Delivery Address">
                     <textarea rows={2} value={profile.address} onChange={e => handleChange("address", e.target.value)}
-                      placeholder="House No., Street, Barangay, City" className={`${inputCls} ${dm ? inputDark : inputLight} resize-none`} />
+                      placeholder="House No., Street, Barangay, City" className={`${inputCls} resize-none`} />
                   </Field>
                 </div>
                 <div className="md:col-span-2">
-                  <Field label="Bio (optional)" dm={dm}>
+                  <Field label="Bio (optional)">
                     <textarea rows={2} value={profile.bio} onChange={e => handleChange("bio", e.target.value)}
-                      placeholder="A little about yourself..." className={`${inputCls} ${dm ? inputDark : inputLight} resize-none`} />
+                      placeholder="A little about yourself..." className={`${inputCls} resize-none`} />
                   </Field>
                 </div>
               </div>
-              <div className={`flex justify-between items-center mt-5 pt-4 border-t ${dm ? "border-[#c8a882]/15" : "border-[#605146]/10"}`}>
-                <p className={`text-xs ${dm ? "text-[#c8a882]" : "opacity-50"}`}>Saved to server</p>
+              <div className="flex justify-between items-center mt-5 pt-4 border-t border-[#605146]/10">
+                <p className="text-xs opacity-50">Saved on this device only</p>
                 <button type="button" onClick={handleSaveProfile}
                   className="px-8 py-2.5 rounded-xl bg-[#2f241c] text-white text-sm font-bold hover:opacity-90 active:scale-[0.98] transition">
                   Save Profile
@@ -267,42 +267,42 @@ export const Setting = () => {
 
         {activeTab === "account" && (
           <div className="space-y-4">
-            <Section title="Change Password" icon="🔑" dm={dm}>
-              <p className={`text-sm mb-4 ${dm ? "text-[#c8a882]" : "opacity-70"}`}>Update your sign-in password. Use at least 6 characters.</p>
+            <Section title="Change Password" icon="🔑">
+              <p className="text-sm opacity-70 mb-4">Update your sign-in password. Use at least 6 characters.</p>
               <button type="button" onClick={() => setShowPwModal(true)}
                 className="px-6 py-2.5 rounded-xl bg-[#605146] text-white text-sm font-bold hover:bg-[#4a3a22] transition">
                 Change Password
               </button>
             </Section>
 
-            <Section title="Danger Zone" icon="⚠️" dm={dm}>
+            <Section title="Danger Zone" icon="⚠️">
               <div className="space-y-3">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <p className={`text-sm font-semibold ${dm ? "text-[#f0e3d2]" : ""}`}>Clear Local Data</p>
-                    <p className={`text-xs mt-0.5 ${dm ? "text-[#c8a882]" : "opacity-60"}`}>Removes your saved profile and preferences from this device</p>
+                    <p className="text-sm font-semibold">Clear Local Data</p>
+                    <p className="text-xs opacity-60 mt-0.5">Removes your saved profile and preferences from this device</p>
                   </div>
                   <button type="button" onClick={() => setShowClearConfirm(true)}
                     className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-500 border border-red-600 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
                     Clear Data
                   </button>
                 </div>
-                <hr className={dm ? "border-[#c8a882]/15" : "border-[#605146]/10"} />
+                <hr className="border-[#605146]/10" />
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <p className={`text-sm font-semibold ${dm ? "text-[#f0e3d2]" : ""}`}>Sign Out</p>
-                    <p className={`text-xs mt-0.5 ${dm ? "text-[#c8a882]" : "opacity-60"}`}>You will be returned to the sign-in screen</p>
+                    <p className="text-sm font-semibold">Sign Out</p>
+                    <p className="text-xs opacity-60 mt-0.5">You will be returned to the sign-in screen</p>
                   </div>
                   <button type="button" onClick={handleLogout}
                     className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-500 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
                     Sign Out
                   </button>
                 </div>
-                <hr className={dm ? "border-[#c8a882]/15" : "border-[#605146]/10"} />
+                <hr className="border-[#605146]/10" />
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-red-500">Delete Account</p>
-                    <p className={`text-xs mt-0.5 ${dm ? "text-[#c8a882]" : "opacity-60"}`}>Permanently delete your account and all associated data</p>
+                    <p className="text-sm font-semibold text-red-600">Delete Account</p>
+                    <p className="text-xs opacity-60 mt-0.5">Permanently delete your account and all associated data</p>
                   </div>
                   <button type="button" onClick={() => setShowDeleteConfirm(true)}
                     className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition shrink-0 border-2 border-red-800">
@@ -316,22 +316,22 @@ export const Setting = () => {
 
         {activeTab === "preferences" && (
           <div className="space-y-4">
-            <Section title="Notifications" icon="🔔" dm={dm}>
+            <Section title="Notifications" icon="🔔">
               <div className="space-y-4">
-                <Toggle checked={prefs.orderNotif} onChange={() => togglePref("orderNotif")} dm={dm}
+                <Toggle checked={prefs.orderNotif} onChange={() => togglePref("orderNotif")}
                   label="Order Updates" sub="Get notified when your order status changes" />
-                <hr className={dm ? "border-[#c8a882]/15" : "border-[#605146]/10"} />
-                <Toggle checked={prefs.promoNotif} onChange={() => togglePref("promoNotif")} dm={dm}
+                <hr className="border-[#605146]/10" />
+                <Toggle checked={prefs.promoNotif} onChange={() => togglePref("promoNotif")}
                   label="Promotions & Offers" sub="Receive alerts about new deals and discounts" />
               </div>
             </Section>
 
-            <Section title="Display" icon="🖥️" dm={dm}>
+            <Section title="Display" icon="🖥️">
               <div className="space-y-4">
-                <Toggle checked={prefs.darkMode} onChange={() => togglePref("darkMode")} dm={dm}
+                <Toggle checked={prefs.darkMode} onChange={() => togglePref("darkMode")}
                   label="Dark Mode" sub="Switch to a darker color scheme" />
-                <hr className={dm ? "border-[#c8a882]/15" : "border-[#605146]/10"} />
-                <Toggle checked={prefs.compactView} onChange={() => togglePref("compactView")} dm={dm}
+                <hr className="border-[#605146]/10" />
+                <Toggle checked={prefs.compactView} onChange={() => togglePref("compactView")}
                   label="Compact View" sub="Show more items with less spacing" />
               </div>
             </Section>
@@ -348,21 +348,21 @@ export const Setting = () => {
 
       {showPwModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className={`rounded-2xl shadow-2xl w-full max-w-sm p-6 ${dm ? "bg-[#241c15] border border-[#c8a882]/20" : "bg-white"}`}>
-            <h3 className={`text-lg font-black mb-4 ${dm ? "text-[#f0e3d2]" : ""}`}>Change Password</h3>
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+            <h3 className="text-lg font-black mb-4">Change Password</h3>
             <div className="space-y-3">
               {[["current","Current Password"],["next","New Password"],["confirm","Confirm New Password"]].map(([key, label]) => (
                 <div key={key}>
-                  <label className={`text-xs font-bold uppercase tracking-wide block mb-1 ${dm ? "text-[#c8a882]" : "text-[#605146]/80"}`}>{label}</label>
+                  <label className="text-xs font-bold text-[#605146]/80 uppercase tracking-wide block mb-1">{label}</label>
                   <input type="password" value={pwForm[key]}
                     onChange={e => setPwForm(prev => ({ ...prev, [key]: e.target.value }))}
-                    className={`${inputCls} ${dm ? inputDark : inputLight}`} placeholder="••••••••" />
+                    className={inputCls} placeholder="••••••••" />
                 </div>
               ))}
             </div>
             <div className="flex gap-3 mt-5">
               <button type="button" onClick={() => { setShowPwModal(false); setPwForm({ current:"", next:"", confirm:"" }); }}
-                className={`flex-1 py-2.5 rounded-xl border-2 font-bold text-sm transition ${dm ? "border-[#c8a882]/25 text-[#f0e3d2] hover:bg-[#3a2c20]" : "border-[#605146]/25 hover:bg-gray-50"}`}>
+                className="flex-1 py-2.5 rounded-xl border-2 border-[#605146]/25 font-bold text-sm hover:bg-gray-50 transition">
                 Cancel
               </button>
               <button type="button" onClick={handleChangePassword}

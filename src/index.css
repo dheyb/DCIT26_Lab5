@@ -74,10 +74,6 @@ html[data-theme="dark"] body {
   color: #f0e3d2 !important;
 }
 
-html[data-theme="dark"] * {
-  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
-}
-
 /* Page background */
 html[data-theme="dark"] #root,
 html[data-theme="dark"] .min-h-screen { background-color: #1a1410 !important; }
@@ -89,32 +85,8 @@ html[data-theme="dark"] nav h5 { color: #f0e3d2 !important; }
 /* Footer */
 html[data-theme="dark"] footer { background-color: #0e0b08 !important; }
 
-/* All white / cream backgrounds → dark */
-html[data-theme="dark"] div,
-html[data-theme="dark"] section,
-html[data-theme="dark"] aside,
-html[data-theme="dark"] main { color: #f0e3d2; }
-
-/* Specific bg overrides */
-html[data-theme="dark"] [style*="background"],
-html[data-theme="dark"] .bg-white { background-color: #2e2318 !important; }
-
-/* Force all card/panel backgrounds — but NOT buttons */
-html[data-theme="dark"] div.rounded-xl,
-html[data-theme="dark"] div.rounded-2xl,
-html[data-theme="dark"] div.rounded-3xl,
-html[data-theme="dark"] ul.rounded-xl,
-html[data-theme="dark"] nav.rounded-xl,
-html[data-theme="dark"] nav.rounded-lg {
-  background-color: #241c15 !important;
-  border-color: rgba(200,168,130,0.2) !important;
-  color: #f0e3d2 !important;
-}
-
-/* Keep colored buttons/badges as-is (don't override bg-[#...] buttons) */
-html[data-theme="dark"] button {
-  color: inherit;
-}
+/* White backgrounds → dark (only plain white, not colored elements) */
+html[data-theme="dark"] .bg-white { background-color: #2e2318 !important; color: #f0e3d2 !important; }
 
 /* Inputs */
 html[data-theme="dark"] input,
@@ -128,25 +100,3 @@ html[data-theme="dark"] input::placeholder,
 html[data-theme="dark"] textarea::placeholder {
   color: rgba(200,168,130,0.4) !important;
 }
-
-/* Text colors */
-html[data-theme="dark"] p,
-html[data-theme="dark"] span,
-html[data-theme="dark"] h1,
-html[data-theme="dark"] h2,
-html[data-theme="dark"] h3,
-html[data-theme="dark"] h4,
-html[data-theme="dark"] h5,
-html[data-theme="dark"] label,
-html[data-theme="dark"] li { color: #f0e3d2; }
-
-/* Keep white text on dark buttons readable */
-html[data-theme="dark"] button.text-white,
-html[data-theme="dark"] [class*="text-white"] { color: #ffffff !important; }
-
-/* Keep yellow/accent text */
-html[data-theme="dark"] [class*="text-amber"],
-html[data-theme="dark"] [class*="text-yellow"],
-html[data-theme="dark"] [class*="text-emerald"],
-html[data-theme="dark"] [class*="text-red"],
-html[data-theme="dark"] [class*="text-blue"] { color: inherit; }

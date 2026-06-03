@@ -34,7 +34,9 @@ export const CartProvider = ({ children, onOrderPlaced }) => {
     const fetchOrders = async () => {
       try {
         const res = await api.get("/orders");
-        const dbOrders = res.data.map((o) => ({
+        const dbOrders = res.data
+          .filter((o) => o.status !== "CANCELLED")
+          .map((o) => ({
           id: o.id,
           items: (o.lineItems || []).reduce((s, x) => s + x.quantity, 0),
           total: o.total,
@@ -126,7 +128,10 @@ export const CartProvider = ({ children, onOrderPlaced }) => {
     setCartItems((prev) => prev.filter((x) => x.id !== productId));
   };
 
-  const cancelOrder = (orderId) => {
+  const cancelOrder = async (orderId) => {
+    try {
+      await api.delete(`/orders/${orderId}`);
+    } catch {}
     setOrders((prev) => prev.filter((o) => o.id !== orderId));
   };
 

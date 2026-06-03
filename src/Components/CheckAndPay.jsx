@@ -91,7 +91,7 @@ export const CheckAndPay = ({ setActiveLink }) => {
 
   return (
     <div className="p-5 bg-[#efe4d4] rounded-xl border border-[#605146]/20 shadow-md text-[#2f241c]">
-      <div className="rounded-[26px] border-2 border-[#605146]/60 bg-[#e9dccb] p-5 md:p-6 max-w-2xl mx-auto space-y-4">
+      <div className="rounded-[26px] border-2 border-[#605146]/60 bg-[#e9dccb] p-4 md:p-6 max-w-2xl mx-auto space-y-4">
 
         <div className="bg-white border border-black/50 rounded-xl p-4">
           <div className="flex items-center justify-between mb-3">

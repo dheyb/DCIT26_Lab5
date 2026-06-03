@@ -277,35 +277,35 @@ export const Setting = () => {
 
             <Section title="Danger Zone" icon="⚠️">
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold">Clear Local Data</p>
                     <p className="text-xs opacity-60 mt-0.5">Removes your saved profile and preferences from this device</p>
                   </div>
                   <button type="button" onClick={() => setShowClearConfirm(true)}
-                    className="px-4 py-2 rounded-xl bg-red-500 border border-red-600 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
+                    className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-500 border border-red-600 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
                     Clear Data
                   </button>
                 </div>
                 <hr className="border-[#605146]/10" />
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold">Sign Out</p>
                     <p className="text-xs opacity-60 mt-0.5">You will be returned to the sign-in screen</p>
                   </div>
                   <button type="button" onClick={handleLogout}
-                    className="px-4 py-2 rounded-xl bg-red-500 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
+                    className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-500 text-white text-xs font-bold hover:bg-red-600 transition shrink-0">
                     Sign Out
                   </button>
                 </div>
                 <hr className="border-[#605146]/10" />
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold text-red-600">Delete Account</p>
                     <p className="text-xs opacity-60 mt-0.5">Permanently delete your account and all associated data</p>
                   </div>
                   <button type="button" onClick={() => setShowDeleteConfirm(true)}
-                    className="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition shrink-0 border-2 border-red-800">
+                    className="w-full sm:w-auto px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition shrink-0 border-2 border-red-800">
                     Delete Account
                   </button>
                 </div>

@@ -17,11 +17,11 @@ export const Navbar = ({ activeLink, setActiveLink }) => {
 
   return (
     <>
-      <nav className="bg-[#f0e3d2] mx-3 rounded-lg p-4 relative z-50">
+      <nav className="bg-[#f0e3d2] mx-2 sm:mx-3 rounded-lg p-3 sm:p-4 relative z-50">
         <div className="flex justify-between items-center">
           <div className="flex-shrink-0 flex flex-row items-center">
             <img src={logo} className="rounded-full w-12 h-12 object-cover" alt="logo" />
-            <h5 className="font-black ml-2 text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
+            <h5 className="font-black ml-2 text-base sm:text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-wide">
               TAKIPSILIM CAFE
             </h5>
           </div>

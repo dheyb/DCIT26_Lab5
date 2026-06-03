@@ -39,12 +39,12 @@ export const Content = ({ activeLink, setActiveLink }) => {
       case "Home":
         return (
           <>
-            <div className="flex bg-[#f0e3d2]/60 p-1.5 rounded-xl gap-2 shadow-inner border border-[#605146]/10">
+            <div className="flex bg-[#f0e3d2]/60 p-1.5 rounded-xl gap-1 shadow-inner border border-[#605146]/10">
               {tabpanel.map((tab, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveTab(i)}
-                  className={`flex-1 py-3 text-sm font-semibold tracking-wider rounded-lg transition-all duration-300 ${activeTab === i
+                  className={`flex-1 py-2.5 text-[11px] sm:text-sm font-semibold tracking-wide rounded-lg transition-all duration-300 ${activeTab === i
                       ? "bg-[#b4b4b4] text-[black] shadow-md scale-[1.02]"
                       : "text-[black] hover:bg-[#605146]/10 hover:text-[#605146]"
                     }`}
@@ -77,7 +77,7 @@ export const Content = ({ activeLink, setActiveLink }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-6 px-3">
+    <div className="max-w-4xl mx-auto mt-4 px-3 pb-6">
       {renderMainContent()}
     </div>
   );

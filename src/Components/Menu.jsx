@@ -274,7 +274,7 @@ const saveSipToLocal = (item) => {
 
                     <hr className="my-3 border-gray-300" />
                     
-                    <div className={`grid gap-3 ${compact ? "grid-cols-3 md:grid-cols-4" : "grid-cols-2 md:grid-cols-3"}`}>
+                    <div className={`grid gap-3 ${compact ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4" : "grid-cols-2 md:grid-cols-3"}`}>
                         {menuItems[selectedMenu] && menuItems[selectedMenu].map((item) => (
                             <div 
                                 key={item.id} 

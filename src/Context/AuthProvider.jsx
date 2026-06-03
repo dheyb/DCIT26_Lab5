@@ -31,13 +31,10 @@ export const AuthProvider = ({ children }) => {
                 password: userData.password,
                 phone:    userData.phone,
             });
-            return true;
+            return { success: true };
         } catch (err) {
-            const msg = err.response?.data?.message || '';
-            if (msg.toLowerCase().includes('email') || msg.toLowerCase().includes('username')) {
-                return false;
-            }
-            return false;
+            const msg = err.response?.data?.message || 'Registration failed. Please try again.';
+            return { success: false, message: msg };
         }
     };
 
@@ -48,13 +45,21 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('auth_token', token);
             localStorage.setItem('auth_user', JSON.stringify(userData));
             setUser(userData);
-            return true;
-        } catch {
-            return false;
+            return { success: true };
+        } catch (err) {
+            const msg = err.response?.data?.message || 'Invalid username or password.';
+            return { success: false, message: msg };
         }
     };
 
     const handleLogout = () => {
+        try {
+            const raw = localStorage.getItem('auth_user');
+            if (raw) {
+                const u = JSON.parse(raw);
+                localStorage.removeItem(`takipsilim_cart_${u.username}`);
+            }
+        } catch {}
         localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_user');
         setUser(null);

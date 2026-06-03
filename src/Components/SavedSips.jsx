@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useCart } from "../Context/useCart";
 import { useToastContext } from "../Context/ToastContext";
 import { usePrefs } from "../Context/PrefsContext";
+import { useAuth } from "../Context/useAuth";
 
-const STORAGE_KEY = "takipsilim_saved_sips";
+const BASE_KEY = "takipsilim_saved_sips";
 const DEMO_IDS = [];
 const PLACEHOLDER_IMAGE = "https://placehold.co/200x200/f0e3d2/605146?text=No+Image";
 
-const loadSavedFromStorage = () => {
+const getSavedKey = (username) => username ? `${BASE_KEY}_${username}` : BASE_KEY;
+
+const loadSavedFromStorage = (key) => {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(key);
     if (raw) return JSON.parse(raw);
-  } catch {
-  }
+  } catch {}
   return null;
 };
 
@@ -25,16 +27,18 @@ export const SavedSips = () => {
   const { addToCart } = useCart();
   const { showToast } = useToastContext();
   const { prefs } = usePrefs();
+  const { user } = useAuth();
   const dm = prefs.darkMode;
   const [saved, setSaved] = useState([]);
+  const storageKey = getSavedKey(user?.username);
 
   useEffect(() => {
     const init = () => {
-      const fromStorage = loadSavedFromStorage();
+      const fromStorage = loadSavedFromStorage(storageKey);
       if (fromStorage && Array.isArray(fromStorage)) {
         const cleaned = cleanDemoItems(fromStorage);
         setSaved(cleaned);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
+        localStorage.setItem(storageKey, JSON.stringify(cleaned));
       } else {
         setSaved([]);
       }
@@ -44,7 +48,7 @@ export const SavedSips = () => {
 
     const onVisibility = () => {
       if (document.visibilityState === "visible") {
-        const list = loadSavedFromStorage();
+        const list = loadSavedFromStorage(storageKey);
         if (list && Array.isArray(list)) {
           setSaved(cleanDemoItems(list));
         }
@@ -52,8 +56,8 @@ export const SavedSips = () => {
     };
 
     const onStorage = (e) => {
-      if (e.key === STORAGE_KEY) {
-        const list = loadSavedFromStorage();
+      if (e.key === storageKey) {
+        const list = loadSavedFromStorage(storageKey);
         if (list && Array.isArray(list)) setSaved(cleanDemoItems(list));
       }
     };
@@ -65,11 +69,11 @@ export const SavedSips = () => {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("storage", onStorage);
     };
-  }, []);
+  }, [storageKey]);
 
   const persist = (items) => {
     setSaved(items);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    localStorage.setItem(storageKey, JSON.stringify(items));
   };
 
   const removeSaved = (id) => {

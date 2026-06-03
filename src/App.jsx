@@ -24,7 +24,7 @@ function AppInner() {
   }
 
   return (
-    <CartProvider onOrderPlaced={() => user && addOrderCount(user.username)}>
+    <CartProvider key={user?.username ?? "guest"} onOrderPlaced={() => user && addOrderCount(user.username)}>
       <ToastProvider>
         <div className="min-h-screen flex flex-col">
           {!user ? (

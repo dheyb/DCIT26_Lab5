@@ -5,12 +5,15 @@ import { useToastContext } from "../Context/ToastContext";
 import { usePrefs } from "../Context/PrefsContext";
 import { useReviews } from "../Context/ReviewContext";
 
+const menuItems = ProductsData;
+
 export const Menu = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [showReviewsFor, setShowReviewsFor] = useState(null);
+    const [loading, setLoading] = useState(false);
     const { showToast } = useToastContext();
     const { prefs } = usePrefs();
     const compact = prefs.compactView;
@@ -55,7 +58,7 @@ const handleConfirmAddToCart = () => {
   showToast(`${selectedItem.name} (x${quantity}) has been added to your cart.`, "success");
 };
 
-const STORAGE_KEY = "takipsilim_saved_sips";
+const STORAGE_KEY = `takipsilim_saved_sips_${(() => { try { const u = localStorage.getItem("auth_user"); return u ? JSON.parse(u).username : "guest"; } catch { return "guest"; } })()}`;
 
 const saveSipToLocal = (item) => {
   try {

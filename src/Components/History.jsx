@@ -14,7 +14,7 @@ const StarDisplay = ({ avg, count }) => (
 );
 
 export const History = () => {
-  const { orders = [], addToCart } = useCart();
+  const { orders = [], ordersLoaded, addToCart } = useCart();
   const { showToast } = useToastContext();
   const { addReview, getItemReviews, getItemAvgRating } = useReviews();
   const { user } = useAuth();
@@ -98,7 +98,11 @@ export const History = () => {
 
       <div className="rounded-[26px] border-2 border-[#605146]/50 p-4 bg-[#e9dccb]">
         <div className="max-h-[330px] overflow-y-auto pr-2 space-y-4">
-          {deliveredOrders.length === 0 ? (
+          {!ordersLoaded ? (
+            <div className="bg-white/70 border border-[#605146]/30 rounded-xl p-5 text-center">
+              <p className="font-semibold opacity-60">Loading order history...</p>
+            </div>
+          ) : deliveredOrders.length === 0 ? (
             <div className="bg-white/70 border border-[#605146]/30 rounded-xl p-5 text-center">
               <p className="font-semibold">No order history yet.</p>
               <p className="text-sm opacity-70 mt-1">Completed orders will appear here once delivered.</p>
